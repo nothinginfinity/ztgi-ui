@@ -31,6 +31,8 @@ class AiAssistant {
         this.quickActions = [];
         this.isTyping = false;
         this.initialized = false;
+        this.qaStoneParser = null;
+        this.lastProcessedStone = null;
     }
 
     /**
@@ -41,6 +43,7 @@ class AiAssistant {
 
         this.emailClient = this.ztgi.emailClient;
         this.analytics = this.ztgi.analytics;
+        this.qaStoneParser = this.ztgi.qaStoneParser;
 
         // Load system prompts
         this.systemPrompts = options.systemPrompts || this.getDefaultSystemPrompts();
@@ -58,8 +61,11 @@ class AiAssistant {
         // Check for unread messages periodically
         this.startUnreadCheck();
 
+        // Listen for paste events to detect QA.Stones
+        document.addEventListener('paste', (e) => this.handlePaste(e));
+
         this.initialized = true;
-        console.log('[AiAssistant] Initialized');
+        console.log('[AiAssistant] Initialized with QA.Stone support');
 
         return this;
     }
@@ -898,6 +904,219 @@ class AiAssistant {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    // ==================== QA.Stone Handling ====================
+
+    /**
+     * Handle paste event - detect QA.Stone and process accordingly
+     */
+    handlePaste(event) {
+        if (!this.qaStoneParser) return;
+
+        const content = event.clipboardData?.getData('text');
+        if (!content) return;
+
+        if (this.qaStoneParser.isQAStone(content)) {
+            // Prevent default only if we're handling a stone
+            // and the assistant widget input is not focused
+            const activeEl = document.activeElement;
+            const isAssistantInput = activeEl?.classList.contains('ztgi-assistant-input');
+
+            if (!isAssistantInput) {
+                event.preventDefault();
+                this.processQAStone(content);
+            }
+        }
+    }
+
+    /**
+     * Process QA.Stone formatted paste
+     */
+    async processQAStone(content) {
+        // 1. Parse header only (~50 tokens)
+        const header = this.qaStoneParser.parseHeader(content);
+
+        // 2. Log to analytics
+        if (this.analytics) {
+            this.analytics.trackCustom('qastone_received', {
+                border_hash: header.border_hash,
+                glow_channel: header.glow_channel,
+                stone_type: header.stone_type,
+                lod_count: header.lod_count
+            });
+        }
+
+        // 3. Assess what LOD is needed
+        const assessment = this.qaStoneParser.assessRequiredLOD(
+            header,
+            { page: this.pageContext.page }
+        );
+
+        // 4. Get token savings info
+        const savings = this.qaStoneParser.getTokenSavings(content, assessment.level);
+
+        // 5. Store for reference
+        this.lastProcessedStone = {
+            content: content,
+            header: header,
+            assessment: assessment,
+            savings: savings,
+            timestamp: new Date().toISOString()
+        };
+
+        // 6. Open assistant and show stone info
+        this.open();
+        this.showQAStoneReceived(header, assessment, savings);
+
+        // 7. If needs helper, offer to spawn
+        if (assessment.spawnHelper) {
+            this.offerSpawnHelper(content, header);
+        }
+
+        // 8. Load content up to assessed LOD
+        const loaded = this.qaStoneParser.progressiveLoad(content, assessment.level);
+
+        // 9. Process the task
+        await this.processStoneTask(loaded, header, assessment);
+    }
+
+    /**
+     * Show QA.Stone received notification in chat
+     */
+    showQAStoneReceived(header, assessment, savings) {
+        const channelEmoji = {
+            task: '📋',
+            context: '📄',
+            handoff: '🔄',
+            query: '❓',
+            data: '📊'
+        };
+
+        const emoji = channelEmoji[header.glow_channel] || '📦';
+
+        this.addMessage('system', `${emoji} QA.Stone received: ${header.glow_channel} (${header.stone_type})`);
+
+        if (savings.percentage > 0) {
+            this.addMessage('system', `💾 Token savings: ${savings.percentage}% (using LOD-${assessment.level})`);
+        }
+    }
+
+    /**
+     * Offer to spawn helper for complex stones
+     */
+    offerSpawnHelper(content, header) {
+        const messagesEl = this.container.querySelector('.ztgi-assistant-messages');
+
+        const helperOffer = document.createElement('div');
+        helperOffer.className = 'ztgi-assistant-message system';
+        helperOffer.innerHTML = `
+            <div>This stone has ${header.lod_count} LOD levels. Spawn helper for deep processing?</div>
+            <div style="margin-top: 8px;">
+                <button class="ztgi-assistant-quick-action ztgi-spawn-helper-btn">Spawn Helper</button>
+                <button class="ztgi-assistant-quick-action ztgi-load-all-btn">Load All LODs</button>
+            </div>
+        `;
+
+        messagesEl.appendChild(helperOffer);
+
+        // Bind buttons
+        helperOffer.querySelector('.ztgi-spawn-helper-btn').onclick = () => {
+            this.spawnHelperForStone(content, header);
+            helperOffer.remove();
+        };
+
+        helperOffer.querySelector('.ztgi-load-all-btn').onclick = () => {
+            this.loadAllLODs(content);
+            helperOffer.remove();
+        };
+
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    /**
+     * Spawn helper agent for complex stones
+     */
+    async spawnHelperForStone(content, header) {
+        this.addMessage('system', '🤖 Spawning helper agent...');
+
+        try {
+            // Send to Email-for-AI with full stone
+            const result = await this.emailClient.sendMessage(
+                `${this.ztgi.appName}_helper_agent`,
+                {
+                    type: 'qastone_process',
+                    stone: content,
+                    header: header,
+                    requestor: this.getAssistantId(),
+                    max_lod: 3
+                },
+                {
+                    messageType: 'helper_request',
+                    priority: 'high'
+                }
+            );
+
+            this.addMessage('system', `✅ Helper spawned (${result.tracking_id}). Results will appear in inbox.`);
+
+        } catch (error) {
+            this.addMessage('system', `❌ Failed to spawn helper: ${error.message}`);
+        }
+    }
+
+    /**
+     * Load all LOD levels
+     */
+    loadAllLODs(content) {
+        const loaded = this.qaStoneParser.progressiveLoad(content, 3);
+        this.addMessage('system', `📖 Loaded all ${Object.keys(loaded.lods).length} LOD levels`);
+
+        // Display each LOD
+        for (const [level, lodContent] of Object.entries(loaded.lods)) {
+            if (lodContent) {
+                this.addMessage('assistant', `**LOD-${level}:** ${lodContent.substring(0, 300)}${lodContent.length > 300 ? '...' : ''}`);
+            }
+        }
+    }
+
+    /**
+     * Process the stone task based on loaded content
+     */
+    async processStoneTask(loaded, header, assessment) {
+        // Build context for chat
+        const taskSummary = loaded.lods[0] || 'No summary available';
+
+        // Add task to chat
+        this.addMessage('assistant', `**Task (${header.glow_channel}):** ${taskSummary}`);
+
+        // If it's a simple task, auto-acknowledge
+        if (assessment.level === 0 && header.glow_channel === 'task') {
+            this.addMessage('assistant', 'Got it! Ready to proceed with this task.');
+        }
+
+        // If it's a query, try to answer
+        if (header.glow_channel === 'query') {
+            await this.handleQueryStone(loaded, header);
+        }
+    }
+
+    /**
+     * Handle query-type stone
+     */
+    async handleQueryStone(loaded, header) {
+        const query = loaded.lods[0] || loaded.content;
+
+        // Send to chat for AI response
+        const input = this.container.querySelector('.ztgi-assistant-input');
+        input.value = query;
+        await this.sendMessage();
+    }
+
+    /**
+     * Get last processed stone (for external access)
+     */
+    getLastStone() {
+        return this.lastProcessedStone;
     }
 
     /**

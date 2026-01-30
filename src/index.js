@@ -25,6 +25,7 @@ import { EmailForAiClient } from './email-for-ai-client.js';
 import { AnalyticsTracker } from './analytics-tracker.js';
 import { AiAssistant } from './ai-assistant.js';
 import { MenuCustomizer } from './menu-customizer.js';
+import { QAStoneParser } from './qastone-parser.js';
 import * as utils from './utils.js';
 
 class ZtgiUIClass {
@@ -40,6 +41,7 @@ class ZtgiUIClass {
         this.analytics = null;
         this.assistant = null;
         this.menuCustomizer = null;
+        this.qaStoneParser = null;
         this.initialized = false;
         this.baseUrl = 'http://localhost:7892';
         this.emailForAiUrl = 'http://localhost:8000';
@@ -105,6 +107,9 @@ class ZtgiUIClass {
         // Initialize Menu Customizer
         this.menuCustomizer = new MenuCustomizer(this);
         this.menuCustomizer.init();
+
+        // Initialize QA.Stone Parser
+        this.qaStoneParser = new QAStoneParser();
 
         // Track initial page visit
         const page = window.location.pathname.split('/')[1] || 'home';
@@ -220,7 +225,7 @@ class ZtgiUIClass {
 const ZtgiUI = new ZtgiUIClass();
 
 // Export for ES modules
-export { ZtgiUI, ContextMenu, CursorModeManager, KeyboardManager, ActionRouter, SettingsPanel, VisIntegration, EmailForAiClient, AnalyticsTracker, AiAssistant, MenuCustomizer, utils };
+export { ZtgiUI, ContextMenu, CursorModeManager, KeyboardManager, ActionRouter, SettingsPanel, VisIntegration, EmailForAiClient, AnalyticsTracker, AiAssistant, MenuCustomizer, QAStoneParser, utils };
 
 // Attach to window for script tag usage
 if (typeof window !== 'undefined') {

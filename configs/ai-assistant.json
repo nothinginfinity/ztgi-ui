@@ -63,5 +63,25 @@
         "bubblePosition": "bottom-right",
         "syncInterval": 60000,
         "healthCheckInterval": 30000
+    },
+    "qastone": {
+        "enabled": true,
+        "autoDetect": true,
+        "defaultMaxLod": 1,
+        "spawnHelperThreshold": 2,
+        "formatOnCopy": false,
+        "channels": {
+            "task": { "defaultLod": 0, "color": "#4CAF50", "emoji": "📋" },
+            "context": { "defaultLod": 1, "color": "#2196F3", "emoji": "📄" },
+            "handoff": { "defaultLod": 1, "color": "#FF9800", "emoji": "🔄" },
+            "query": { "defaultLod": 0, "color": "#9C27B0", "emoji": "❓" },
+            "data": { "defaultLod": 2, "color": "#607D8B", "emoji": "📊" }
+        },
+        "lodLevels": {
+            "0": { "name": "Scan", "description": "1-2 sentence summary" },
+            "1": { "name": "Detail", "description": "1 paragraph context" },
+            "2": { "name": "Deep", "description": "Full content" },
+            "3": { "name": "Source", "description": "History and artifacts" }
+        }
     }
 }

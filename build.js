@@ -25,6 +25,7 @@ const files = [
     'vis-integration.js',
     'email-for-ai-client.js',
     'analytics-tracker.js',
+    'qastone-parser.js',
     'ai-assistant.js',
     'menu-customizer.js',
     'index.js'
@@ -89,6 +90,7 @@ bundle += `
     global.ZtgiAnalyticsTracker = AnalyticsTracker;
     global.ZtgiAiAssistant = AiAssistant;
     global.ZtgiMenuCustomizer = MenuCustomizer;
+    global.ZtgiQAStoneParser = QAStoneParser;
 
 })(typeof window !== 'undefined' ? window : this);
 `;
