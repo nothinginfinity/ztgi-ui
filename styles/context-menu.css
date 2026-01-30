@@ -1,0 +1,153 @@
+/**
+ * ZTGI-UI Context Menu Styles
+ * Dark theme styling for context menus and cursor hints
+ */
+
+/* Context Menu */
+.ztgi-context-menu {
+    position: fixed;
+    background: #1e1e1e;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    padding: 4px 0;
+    min-width: 180px;
+    max-width: 280px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    z-index: 10000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    animation: ztgi-menu-appear 0.15s ease-out;
+}
+
+@keyframes ztgi-menu-appear {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.ztgi-menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: #e0e0e0;
+    transition: background 0.1s ease;
+}
+
+.ztgi-menu-item:hover {
+    background: #2a2a2a;
+}
+
+.ztgi-menu-item:active {
+    background: #333;
+}
+
+.ztgi-menu-item .label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ztgi-menu-item .shortcut {
+    color: #888;
+    font-size: 11px;
+    margin-left: 20px;
+    flex-shrink: 0;
+}
+
+.ztgi-menu-divider {
+    height: 1px;
+    background: #3a3a3a;
+    margin: 4px 0;
+}
+
+/* Cursor Hint */
+.ztgi-cursor-hint {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    pointer-events: none;
+    z-index: 10001;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Toast Notification */
+.ztgi-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #333;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    z-index: 10002;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.ztgi-toast-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Cursor Mode Body Classes */
+body.ztgi-mode-chain {
+    /* Chain link mode */
+}
+
+body.ztgi-mode-agent {
+    /* Agent spawn mode */
+}
+
+body.ztgi-mode-copy {
+    /* Copy mode */
+}
+
+body.ztgi-mode-compose {
+    /* Compose mode */
+}
+
+/* Selection highlight when in special modes */
+body[class*="ztgi-mode-"] [data-context]:hover {
+    outline: 2px solid rgba(66, 153, 225, 0.5);
+    outline-offset: 2px;
+}
+
+/* Light theme variant (add class 'ztgi-light' to body) */
+body.ztgi-light .ztgi-context-menu {
+    background: #fff;
+    border-color: #e0e0e0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+body.ztgi-light .ztgi-menu-item {
+    color: #333;
+}
+
+body.ztgi-light .ztgi-menu-item:hover {
+    background: #f5f5f5;
+}
+
+body.ztgi-light .ztgi-menu-divider {
+    background: #e0e0e0;
+}
+
+body.ztgi-light .ztgi-cursor-hint {
+    background: rgba(0, 0, 0, 0.75);
+}

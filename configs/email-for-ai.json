@@ -1,0 +1,70 @@
+{
+  "contextMenus": {
+    "email-item": [
+      { "label": "📧 Reply", "action": "email.reply", "shortcut": "R" },
+      { "label": "➡️ Forward", "action": "email.forward", "shortcut": "F" },
+      { "label": "🤖 Forward to Agent", "action": "email.forwardToAgent" },
+      { "divider": true },
+      { "label": "📋 Copy with CNP", "action": "cnp.copyWithProvenance" },
+      { "label": "🔍 Search Related", "action": "email.searchRelated" },
+      { "divider": true },
+      { "label": "📅 Add to Calendar", "action": "email.addCalendar" },
+      { "label": "✅ Create Task", "action": "email.createTask" }
+    ],
+    "agent-item": [
+      { "label": "💬 Chat", "action": "agent.chat" },
+      { "label": "📋 View Logs", "action": "agent.viewLogs" },
+      { "label": "🔄 Restart", "action": "agent.restart" },
+      { "label": "⏹️ Stop", "action": "agent.stop" }
+    ],
+    "attachment": [
+      { "label": "👁️ Preview", "action": "attachment.preview" },
+      { "label": "⬇️ Download", "action": "attachment.download" },
+      { "label": "🤖 Send to Agent", "action": "attachment.sendToAgent" },
+      { "label": "📋 Copy Link", "action": "attachment.copyLink" }
+    ],
+    "thread": [
+      { "label": "📧 Reply All", "action": "email.replyAll" },
+      { "label": "📌 Pin Thread", "action": "email.pinThread" },
+      { "label": "🏷️ Add Label", "action": "email.addLabel" },
+      { "label": "🗑️ Archive", "action": "email.archive" }
+    ]
+  },
+  "cursorModes": {
+    "default": {
+      "cursor": "default",
+      "hint": null
+    },
+    "compose": {
+      "cursor": "/cursors/compose.svg",
+      "hint": "Composing email"
+    },
+    "select-agent": {
+      "cursor": "/cursors/agent.svg",
+      "hint": "Select an agent"
+    },
+    "select-email": {
+      "cursor": "/cursors/select.svg",
+      "hint": "Select emails"
+    }
+  },
+  "shortcuts": {
+    "n": "email.compose",
+    "r": "email.reply",
+    "f": "email.forward",
+    "a": "cursor.select-agent",
+    "s": "cursor.select-email",
+    "escape": "cursor.default",
+    "ctrl+enter": "email.send",
+    "/": "email.search"
+  },
+  "actions": {
+    "email.view": "/email/{id}",
+    "email.compose": "/compose",
+    "agent.view": "/agents/{agentId}"
+  },
+  "apiEndpoints": {
+    "email-for-ai": "http://localhost:8000",
+    "cnp": "http://localhost:7890"
+  }
+}

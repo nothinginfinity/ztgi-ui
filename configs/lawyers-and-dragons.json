@@ -1,0 +1,71 @@
+{
+  "contextMenus": {
+    "case-item": [
+      { "label": "⚔️ Add to Case", "action": "case.addEvidence", "shortcut": "E" },
+      { "label": "📜 Generate Motion", "action": "case.generateMotion" },
+      { "label": "🔍 Research Similar", "action": "case.researchSimilar" },
+      { "divider": true },
+      { "label": "📋 Copy Citation", "action": "case.copyCitation" },
+      { "label": "📤 Export", "action": "case.export" }
+    ],
+    "document-item": [
+      { "label": "👁️ Preview", "action": "doc.preview" },
+      { "label": "✏️ Edit", "action": "doc.edit" },
+      { "label": "📜 Generate Contract", "action": "doc.generateContract" },
+      { "divider": true },
+      { "label": "🔗 Link to Case", "action": "doc.linkToCase" },
+      { "label": "📋 Copy with Provenance", "action": "cnp.copyWithProvenance" }
+    ],
+    "dragon-item": [
+      { "label": "🐉 Summon Dragon", "action": "dragon.summon" },
+      { "label": "🔥 Breathe Fire", "action": "dragon.breatheFire" },
+      { "label": "💬 Consult", "action": "dragon.consult" },
+      { "label": "📊 View Stats", "action": "dragon.viewStats" }
+    ],
+    "timeline": [
+      { "label": "📅 Add Event", "action": "timeline.addEvent" },
+      { "label": "🔗 Link Events", "action": "timeline.linkEvents" },
+      { "label": "📤 Export Timeline", "action": "timeline.export" }
+    ]
+  },
+  "cursorModes": {
+    "default": {
+      "cursor": "default",
+      "hint": null
+    },
+    "attack": {
+      "cursor": "/cursors/sword.svg",
+      "hint": "Select target to attack"
+    },
+    "cast": {
+      "cursor": "/cursors/wand.svg",
+      "hint": "Cast spell"
+    },
+    "link": {
+      "cursor": "/cursors/chain.svg",
+      "hint": "Link items"
+    },
+    "evidence": {
+      "cursor": "/cursors/evidence.svg",
+      "hint": "Add as evidence"
+    }
+  },
+  "shortcuts": {
+    "1": "cursor.attack",
+    "2": "cursor.cast",
+    "3": "cursor.link",
+    "e": "cursor.evidence",
+    "escape": "cursor.default",
+    "ctrl+n": "case.new",
+    "ctrl+d": "dragon.summon"
+  },
+  "actions": {
+    "case.view": "/case/{caseId}",
+    "doc.view": "/document/{docId}",
+    "dragon.view": "/dragon/{dragonId}"
+  },
+  "apiEndpoints": {
+    "lawyers-and-dragons": "http://localhost:3001",
+    "cnp": "http://localhost:7890"
+  }
+}

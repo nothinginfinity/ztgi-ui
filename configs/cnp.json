@@ -1,0 +1,121 @@
+{
+  "contextMenus": {
+    "cnp-entry": [
+      { "label": "👁️ View Details", "action": "cnp.viewEntry", "shortcut": "V" },
+      { "label": "🔗 View Chain", "action": "cnp.viewChain", "shortcut": "C" },
+      { "label": "🤖 Ask AI", "action": "cnp.askAI", "shortcut": "A" },
+      { "divider": true },
+      { "label": "📋 Copy Content", "action": "cnp.copyContent" },
+      { "label": "📋 Copy Hash", "action": "cnp.copyHash" },
+      { "divider": true },
+      { "label": "👥 Spawn Agent", "action": "cnp.spawnAgent" },
+      { "label": "📤 Export", "action": "cnp.export" }
+    ],
+    "cnp-flow-node": [
+      { "label": "👁️ View Details", "action": "cnp.viewEntry", "shortcut": "V" },
+      { "label": "🔗 Connect To...", "action": "flow.startConnect", "shortcut": "C" },
+      { "label": "🤖 Ask AI About Node", "action": "cnp.askAI", "shortcut": "A" },
+      { "divider": true },
+      { "label": "📋 Copy Hash", "action": "cnp.copyHash" },
+      { "label": "📋 Copy Content", "action": "cnp.copyContent" },
+      { "divider": true },
+      { "label": "🎯 Find Similar", "action": "flow.findSimilar" },
+      { "label": "⎇ Isolate Branch", "action": "flow.isolateBranch" },
+      { "divider": true },
+      { "label": "📌 Pin Node", "action": "flow.pinNode" },
+      { "label": "🗑️ Remove from Canvas", "action": "flow.removeNode" }
+    ],
+    "cnp-flow-sidebar": [
+      { "label": "➕ Add to Canvas", "action": "flow.addToCanvas" },
+      { "label": "👁️ Preview", "action": "cnp.viewEntry" },
+      { "label": "📋 Copy Hash", "action": "cnp.copyHash" }
+    ],
+    "cnp-flow-canvas": [
+      { "label": "📥 Add All Visible", "action": "flow.addAllVisible" },
+      { "label": "⚡ Auto Layout", "action": "flow.autoLayout" },
+      { "label": "🔗 Auto Connect", "action": "flow.autoConnect" },
+      { "divider": true },
+      { "label": "📤 Export Flow", "action": "flow.exportFlow" },
+      { "label": "📥 Import Flow", "action": "flow.importFlow" },
+      { "divider": true },
+      { "label": "🗑️ Clear Canvas", "action": "flow.clearCanvas" }
+    ],
+    "cnp-flow-connection": [
+      { "label": "ℹ️ Connection Info", "action": "flow.connectionInfo" },
+      { "label": "🏷️ Add Label", "action": "flow.addConnectionLabel" },
+      { "label": "🎨 Change Type", "action": "flow.changeConnectionType" },
+      { "divider": true },
+      { "label": "🗑️ Delete Connection", "action": "flow.deleteConnection" }
+    ],
+    "cnp-graph-node": [
+      { "label": "👁️ View Details", "action": "cnp.viewEntry", "shortcut": "V" },
+      { "label": "🔗 View Chain", "action": "cnp.viewChain", "shortcut": "C" },
+      { "label": "🤖 Ask AI", "action": "cnp.askAI", "shortcut": "A" },
+      { "divider": true },
+      { "label": "🎯 Focus Here", "action": "graph.focusNode" },
+      { "label": "👥 Show Neighbors", "action": "graph.showNeighbors" },
+      { "label": "⎇ Isolate Cluster", "action": "graph.isolateCluster" },
+      { "divider": true },
+      { "label": "📋 Copy Hash", "action": "cnp.copyHash" }
+    ],
+    "cnp-timeline-item": [
+      { "label": "👁️ View Details", "action": "cnp.viewEntry" },
+      { "label": "🔗 View Chain", "action": "cnp.viewChain" },
+      { "label": "🤖 Ask AI", "action": "cnp.askAI" },
+      { "divider": true },
+      { "label": "📅 Jump to Date", "action": "timeline.jumpToDate" },
+      { "label": "📋 Copy Hash", "action": "cnp.copyHash" }
+    ],
+    "cnp-ask-result": [
+      { "label": "📋 Copy Response", "action": "ask.copyResponse" },
+      { "label": "🔄 Regenerate", "action": "ask.regenerate" },
+      { "label": "➕ Follow-up", "action": "ask.followUp" },
+      { "divider": true },
+      { "label": "📤 Export", "action": "ask.export" }
+    ]
+  },
+  "cursorModes": {
+    "default": {
+      "cursor": "default",
+      "hint": null
+    },
+    "chain": {
+      "cursor": "/cursors/chain.svg",
+      "hint": "Click to link items"
+    },
+    "agent": {
+      "cursor": "/cursors/agent.svg",
+      "hint": "Click to spawn agent"
+    },
+    "copy": {
+      "cursor": "/cursors/copy.svg",
+      "hint": "Click to copy with provenance"
+    },
+    "connect": {
+      "cursor": "/cursors/chain.svg",
+      "hint": "Click target node to connect"
+    },
+    "select": {
+      "cursor": "/cursors/select.svg",
+      "hint": "Click to select multiple"
+    }
+  },
+  "shortcuts": {
+    "c": "cursor.chain",
+    "a": "cursor.agent",
+    "p": "cursor.copy",
+    "s": "cursor.select",
+    "escape": "cursor.default",
+    "ctrl+f": "cnp.search",
+    "ctrl+k": "cnp.quickAction",
+    "?": "cnp.showHelp"
+  },
+  "actions": {
+    "cnp.viewEntry": "/entry/{hash8}",
+    "cnp.viewChain": "/chain/{hash8}",
+    "cnp.askAI": "/ask?hash8={hash8}"
+  },
+  "apiEndpoints": {
+    "cnp": "http://localhost:7890"
+  }
+}

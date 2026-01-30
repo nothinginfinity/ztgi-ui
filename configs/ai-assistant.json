@@ -1,0 +1,67 @@
+{
+    "systemPrompts": {
+        "cnp_browse_assistant": "You are the Browse Assistant for CNP Browser. You help users navigate their clipboard history, find entries, and optimize their workflow. You can see their usage patterns and suggest menu customizations. Key actions: copy hash, view chain, pin entries, search by content.",
+        "cnp_flow_assistant": "You are the Flow Assistant. You help users build visual workflows, connect nodes, and understand relationships in their clipboard data. Key features: drag-and-drop nodes, auto-layout, connection types, flow export.",
+        "cnp_graph_assistant": "You are the Graph Assistant. You help users explore the network graph of their clipboard entries, find clusters, and analyze connections. Features: zoom, pan, cluster detection, path finding.",
+        "cnp_timeline_assistant": "You are the Timeline Assistant. You help users navigate their clipboard history chronologically and find patterns over time. Features: date range filters, activity heatmaps, time-based search.",
+        "cnp_dashboard_assistant": "You are the Dashboard Assistant. You help users understand their clipboard analytics, manage storage, and configure preferences. Features: usage stats, storage management, export/import.",
+        "cnp_ask_assistant": "You are the Ask AI Assistant. You help users search and query their clipboard data using natural language. You can find entries, summarize content, and answer questions about stored data."
+    },
+    "quickActions": {
+        "browse": [
+            { "label": "What do I use most?", "message": "Based on my usage patterns, what menu actions and shortcuts do I use most often?" },
+            { "label": "Suggest optimization", "message": "Can you suggest ways to optimize my menu based on my usage patterns?" },
+            { "label": "Find duplicates", "message": "Help me find duplicate or similar entries in my clipboard history." },
+            { "label": "Show shortcuts", "message": "What keyboard shortcuts are available on this page?" }
+        ],
+        "flow": [
+            { "label": "Auto-layout help", "message": "How do I use auto-layout to organize my flow nodes?" },
+            { "label": "Connect nodes", "message": "How do I connect nodes in the flow view?" },
+            { "label": "Export flow", "message": "How can I export my current flow as an image or data?" },
+            { "label": "Flow tips", "message": "What are some tips for building effective flows?" }
+        ],
+        "graph": [
+            { "label": "Find clusters", "message": "Can you help me identify clusters in my graph?" },
+            { "label": "Navigation tips", "message": "How do I navigate and explore the graph view?" },
+            { "label": "Connection types", "message": "What do the different connection types mean?" },
+            { "label": "Export graph", "message": "How can I export the graph view?" }
+        ],
+        "timeline": [
+            { "label": "Filter by date", "message": "How do I filter entries by date range?" },
+            { "label": "Activity patterns", "message": "Can you analyze my clipboard activity patterns over time?" },
+            { "label": "Peak hours", "message": "When am I most active with clipboard operations?" },
+            { "label": "Search history", "message": "How do I search through my timeline?" }
+        ],
+        "dashboard": [
+            { "label": "Storage status", "message": "How much storage am I using and what's the limit?" },
+            { "label": "Export data", "message": "How can I export all my clipboard data?" },
+            { "label": "Clear old data", "message": "How do I clean up old clipboard entries?" },
+            { "label": "Settings help", "message": "What settings are available to customize?" }
+        ],
+        "ask": [
+            { "label": "Search tips", "message": "What's the best way to search through my clipboard history?" },
+            { "label": "Find by content", "message": "How do I find entries containing specific text?" },
+            { "label": "Recent entries", "message": "Show me my most recent clipboard entries." },
+            { "label": "Summarize", "message": "Can you summarize my clipboard activity today?" }
+        ]
+    },
+    "inboxIds": {
+        "browse": "cnp_browse_assistant",
+        "flow": "cnp_flow_assistant",
+        "graph": "cnp_graph_assistant",
+        "timeline": "cnp_timeline_assistant",
+        "dashboard": "cnp_dashboard_assistant",
+        "ask": "cnp_ask_assistant",
+        "analytics": "cnp_analytics"
+    },
+    "features": {
+        "chat": true,
+        "inbox": true,
+        "insights": true,
+        "menuCustomization": true,
+        "keyboardToggle": "ctrl+/",
+        "bubblePosition": "bottom-right",
+        "syncInterval": 60000,
+        "healthCheckInterval": 30000
+    }
+}
