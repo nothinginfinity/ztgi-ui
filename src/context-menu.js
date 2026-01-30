@@ -28,6 +28,12 @@ class ContextMenu {
         // Intercept right-click
         document.addEventListener('contextmenu', (e) => {
             const menuType = this.detectMenuType(e.target);
+            console.log('[ContextMenu] Right-click detected:', {
+                menuType,
+                hasMenu: !!this.menus[menuType],
+                registeredMenus: Object.keys(this.menus),
+                target: e.target.tagName
+            });
             if (menuType && this.menus[menuType]) {
                 e.preventDefault();
                 this.show(e.clientX, e.clientY, menuType, e.target);

@@ -73,13 +73,26 @@ files.forEach(file => {
     bundle += `    // === ${file} ===\n`;
     bundle += content.split('\n').map(line => '    ' + line).join('\n');
     bundle += '\n\n';
+
+    // After utils.js, create utils object
+    if (file === 'utils.js') {
+        bundle += `    // Create utils object for import * as utils compatibility
+    const utils = {
+        debounce,
+        throttle,
+        deepMerge,
+        copyToClipboard,
+        showToast,
+        getElementData,
+        findContextParent
+    };
+
+`;
+    }
 });
 
-// Add global exposure
+// Add global exposure (ZtgiUI already created in index.js)
 bundle += `
-    // Create global instance
-    const ZtgiUI = new ZtgiUIClass();
-
     // Expose to global scope
     global.ZtgiUI = ZtgiUI;
     global.ZtgiContextMenu = ContextMenu;

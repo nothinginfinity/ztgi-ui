@@ -167,19 +167,40 @@ app.get('/', (req, res) => {
     <link href="/ztgi-ui.css" rel="stylesheet">
     <script>
         // Initialize with merged configs for demo
-        ZtgiUI.init('cnp');
-        // Add email menus too
-        fetch('/configs/email-for-ai.json')
-            .then(r => r.json())
-            .then(config => ZtgiUI.extend(config));
+        (async () => {
+            await ZtgiUI.init('cnp');
 
-        // Demo action handlers
-        ZtgiUI.actions.register('cnp.copyHash', (data) => {
-            alert('Copied: ' + data.hash8);
-        });
-        ZtgiUI.actions.register('cnp.viewChain', (data) => {
-            alert('View chain for: ' + data.hash8);
-        });
+            // Add email menus too
+            const emailConfig = await fetch('/configs/email-for-ai.json').then(r => r.json());
+            ZtgiUI.extend(emailConfig);
+
+            // Demo action handlers
+            ZtgiUI.actions.register('cnp.copyHash', (data) => {
+                navigator.clipboard.writeText(data.hash8);
+                ZtgiUI.utils.showToast('Copied: ' + data.hash8);
+            });
+            ZtgiUI.actions.register('cnp.viewChain', (data) => {
+                ZtgiUI.utils.showToast('View chain for: ' + data.hash8);
+            });
+            ZtgiUI.actions.register('cnp.viewEntry', (data) => {
+                ZtgiUI.utils.showToast('View entry: ' + data.hash8);
+            });
+            ZtgiUI.actions.register('cnp.askAI', (data) => {
+                ZtgiUI.assistant.open();
+                ZtgiUI.utils.showToast('Ask AI about: ' + data.hash8);
+            });
+            ZtgiUI.actions.register('cnp.copyContent', (data) => {
+                ZtgiUI.utils.showToast('Copy content: ' + data.hash8);
+            });
+            ZtgiUI.actions.register('cnp.spawnAgent', (data) => {
+                ZtgiUI.utils.showToast('Spawn agent for: ' + data.hash8);
+            });
+            ZtgiUI.actions.register('cnp.export', (data) => {
+                ZtgiUI.utils.showToast('Export: ' + data.hash8);
+            });
+
+            console.log('[Demo] ZTGI-UI ready - right-click on boxes to test');
+        })();
     </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 /**
  * ZTGI-UI - Shared Agentic UI Library
  * Version: 1.0.0
- * Built: 2026-01-30T22:48:22.192Z
+ * Built: 2026-01-30T23:39:40.997Z
  *
  * Usage:
  *   <script src="http://localhost:7892/ztgi-ui.js"></script>
@@ -122,6 +122,17 @@
         findContextParent
     
     
+
+    // Create utils object for import * as utils compatibility
+    const utils = {
+        debounce,
+        throttle,
+        deepMerge,
+        copyToClipboard,
+        showToast,
+        getElementData,
+        findContextParent
+    };
 
     // === action-router.js ===
     /**
@@ -505,6 +516,12 @@
             // Intercept right-click
             document.addEventListener('contextmenu', (e) => {
                 const menuType = this.detectMenuType(e.target);
+                console.log('[ContextMenu] Right-click detected:', {
+                    menuType,
+                    hasMenu: !!this.menus[menuType],
+                    registeredMenus: Object.keys(this.menus),
+                    target: e.target.tagName
+                });
                 if (menuType && this.menus[menuType]) {
                     e.preventDefault();
                     this.show(e.clientX, e.clientY, menuType, e.target);
@@ -5002,9 +5019,6 @@
     }
     
 
-
-    // Create global instance
-    const ZtgiUI = new ZtgiUIClass();
 
     // Expose to global scope
     global.ZtgiUI = ZtgiUI;
